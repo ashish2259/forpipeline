@@ -1,0 +1,20 @@
+---
+- name: Copy Jenkins SSH public key to new EC2 instances
+  hosts: all
+  become: true
+  vars:
+    pubkey: "{{ lookup('file', '/home/jenkins/.ssh/id_rsa.pub') }}"
+
+  tasks:
+    - name: Create .ssh directory
+      file:
+        path: /home/ec2-user/.ssh
+        state: directory
+        mode: '0700'
+        owner: ec2-user
+        group: ec2-user
+
+    - name: Add public key to authorized_keys
+      authorized_key:
+        user: ec2-user
+        key: "{{ pubkey }}"

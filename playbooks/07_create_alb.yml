@@ -1,0 +1,20 @@
+---
+- name: Create an ALB and register new EC2 instances
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  vars:
+    region: us-east-1
+
+  tasks:
+    - name: Create ALB
+      amazon.aws.elb_application_lb:
+        name: jenkins-demo-alb
+        state: present
+        subnets: "{{ lookup('env','SUBNETS') }}"
+        security_groups: "{{ lookup('env','SG') }}"
+      register: alb
+
+    - debug:
+        var: alb

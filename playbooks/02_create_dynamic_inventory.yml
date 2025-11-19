@@ -1,0 +1,13 @@
+---
+- name: Generate dynamic inventory
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  tasks:
+    - name: Execute dynamic inventory script
+      command: python3 ../scripts/generate_inventory_from_ec2.py
+      register: out
+
+    - debug:
+        var: out.stdout

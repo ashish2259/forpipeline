@@ -1,0 +1,8 @@
+# This file will be overwritten by Job 2 (dynamic inventory)
+
+[webservers]
+
+[appservers]
+
+[dbservers]
+

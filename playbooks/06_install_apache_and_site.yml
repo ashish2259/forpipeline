@@ -1,0 +1,26 @@
+---
+- name: Install apache and create hostname page
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Install Apache
+      yum:
+        name: httpd
+        state: present
+
+    - name: Start service
+      service:
+        name: httpd
+        state: started
+        enabled: true
+
+    - name: Create info page
+      copy:
+        dest: /var/www/html/index.html
+        content: |
+          <html>
+          <h2>Hostname: {{ ansible_hostname }}</h2>
+          <h2>Private IP: {{ ansible_default_ipv4.address }}</h2>
+          <h2>MAC: {{ ansible_default_ipv4.macaddress }}</h2>
+          </html>

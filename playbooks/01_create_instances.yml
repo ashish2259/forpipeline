@@ -2,26 +2,18 @@
 - name: Create EC2 instances
   hosts: localhost
   connection: local
-  gather_facts: no
-
   vars:
-    region: us-east-1
-    ami_id: "ami-04ff9e29463f52dc0"   # Amazon Linux 2023
-    instance_type: "t2.micro"
-    key_name: "ashishnvkey"
-    count: 5
+    ansible_python_interpreter: /usr/bin/python3
 
   tasks:
     - name: Launch EC2 instances
       amazon.aws.ec2_instance:
-        name: jenkins-demo-servers
-        region: "{{ region }}"
-        key_name: "{{ key_name }}"
-        instance_type: "{{ instance_type }}"
-        image_id: "{{ ami_id }}"
-        count: "{{ count }}"
-        wait: yes
-      register: output
+        region: "{{ aws_region }}"
+        instance_type: t2.micro
+        image_id: ami-0c02fb55956c7d316
+        key_name: ashishnvkey
+        count: 5
+      register: ec2_instances
 
     - debug:
-        var: output
+        var: ec2_instances
